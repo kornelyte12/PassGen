@@ -1,18 +1,36 @@
-function generatePassword(length) {
-  const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+[]{}|;:,.<>?";
-  let password = "";
-  for (let i = 0; i < length; i++) {
-    const randomIndex = Math.floor(Math.random() * charset.length);
-    password += charset[randomIndex];
-  }
-  return password;
+const btnEl = document.querySelector(".btn")
+const inputEl = document.getElementById("input")
+const copyIconEl = document.querySelector(".fa-copy")
+const alertContainerEl = document.querySelector(".alert-container")
+
+btnEl.addEventListener("click", ()=>{
+    createPassword();
+})
+
+copyIconEl.addEventListener("click", ()=>
+{
+    copyPassword();
+
+    if(inputEl.value)
+    {
+        alertContainerEl.classList.remove("active")
+        setTimeout(()=>{
+            alertContainerEl.classList.add("active")
+        }, 2000)
+    }
+    
+})
+
+function createPassword()
+{
+    const chars="0123456789abcdefghijklmnopqrstuvwxtz!@#$%^&*()_+?:{}[]ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const passwordLength = 14;
+    let password = "";
+    for(let i = 0; i<passwordLength; i++)
+    {
+        const randomNum = Math.floor(Math.random()*chars.length);
+        password += chars.charAt(randomNum);
+    }
+    inputEl.value=password;
+    alertContainerEl.innerText = password + " copied!"
 }
-document.getElementById("generate").addEventListener("click", function () {
-  const length = parseInt(document.getElementById("length").value);
-  if (isNaN(length) || length <= 0) {
-    alert("Please enter a valid password length.");
-    return;
-  }
-  const password = generatePassword(length);
-  document.getElementById("password").textContent = password;
-});
